@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FirebaseAuthDemo</string>
+
+    <string name="site_title">Inspire Coding</string>
+    <string name="tutorial_title">
+        Firebase\n
+        authentication
+    </string>
+
+    <string name="welcome_to">Welcome to </string>
+    <string name="welcome_back">Welcome back</string>
+
+    <!--Login-->
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="login">Login</string>
+    <string name="or_log_in_with">Or log in with</string>
+    <string name="dont_have_an_account_yet_register_now">
+        Don\'t have an account yet? <font color="#FFBD2A"><big><b>Register Now</b></big></font>
+    </string>
+    <string name="registration_successful">Registraion successful!</string>
+
+    <!--Register-->
+    <string name="create_account">Create Account</string>
+    <string name="name">Name</string>
+    <string name="register">Register</string>
+    <string name="or_register_with">Or register with</string>
+    <string name="already_have_an_account">Already have an account? <font color="#FFBD2A"><big><b>Login</b></big></font></string>
+    <string name="login_successful">Login Successful!</string>
+    <string name="request_canceled">Request canceled</string>
+</resources>

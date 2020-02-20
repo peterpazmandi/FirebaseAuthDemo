@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.SplashActivity">
+
+    <!--guideline_horizontal-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.27" />
+    <!--guideline_vertical_left-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.30" />
+    <!--guideline_vertical_right-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.70" />
+
+    <!--iv_splashScreen_background-->
+    <ImageView
+        android:id="@+id/iv_splashScreen_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background" />
+
+    <!--iv_splashScreen_inspirecoding_logo-->
+    <ImageView
+        android:id="@+id/iv_splashScreen_inspirecoding_logo"
+        android:layout_width="0dp"
+        android:layout_height="130dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/inspire_coding_logo"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_vertical_left"
+        app:layout_constraintRight_toRightOf="@+id/guideline_vertical_right"
+        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline_horizontal"/>
+
+    <!--iv_splashScreen_inspirecoding_text-->
+    <TextView
+        android:id="@+id/iv_splashScreen_inspirecoding_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:gravity="center"
+        android:text="@string/site_title"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize_4xlarge"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_splashScreen_inspirecoding_logo" />
+
+    <!--iv_splashScreen_android_logo-->
+    <ImageView
+        android:id="@+id/iv_splashScreen_android_logo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/margin_large"
+        android:scaleType="fitCenter"
+        android:src="@drawable/android_logo"
+        app:layout_constraintTop_toBottomOf="@+id/iv_splashScreen_inspirecoding_text"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_vertical_left"/>
+
+    <!--iv_splashScreen_kotlin_logo-->
+    <ImageView
+        android:id="@+id/iv_splashScreen_kotlin_logo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/margin_large"
+        android:scaleType="fitCenter"
+        android:src="@drawable/kotlin_logo"
+        app:layout_constraintTop_toBottomOf="@+id/iv_splashScreen_inspirecoding_text"
+        app:layout_constraintRight_toRightOf="@+id/guideline_vertical_right"/>
+
+    <!--iv_splashScreen_inspirecoding_text-->
+    <TextView
+        android:id="@+id/iv_splashScreen_tutorial_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_4xlarge"
+        android:gravity="center"
+        android:text="@string/tutorial_title"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/textsize_xlarge"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_splashScreen_kotlin_logo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
