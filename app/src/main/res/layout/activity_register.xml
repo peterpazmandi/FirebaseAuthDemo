@@ -198,6 +198,7 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_vertical"
         app:layout_constraintTop_toBottomOf="@+id/tv_register_orregisterwith" />
 
+    <!--tv_register_loginnow-->
     <TextView
         android:id="@+id/tv_register_loginnow"
         android:layout_width="wrap_content"
