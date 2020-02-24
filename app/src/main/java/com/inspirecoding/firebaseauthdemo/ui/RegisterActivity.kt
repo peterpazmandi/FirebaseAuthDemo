@@ -2,6 +2,8 @@ package com.inspirecoding.firebaseauthdemo.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +14,7 @@ import com.inspirecoding.firebaseauthdemo.repository.implementation.UserReposito
 import kotlinx.android.synthetic.main.activity_register.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+private val TAG = "RegisterActivity"
 class RegisterActivity : AppCompatActivity()
 {
     private lateinit var firebaseViewModel: FirebaseViewModel
@@ -40,6 +43,13 @@ class RegisterActivity : AppCompatActivity()
             message?.let {
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                 firebaseViewModel.onToastShown()
+            }
+        })
+
+        firebaseViewModel.spinner.observe(this, Observer { value ->
+            value.let {show ->
+                spinner_register.visibility = if (show) View.VISIBLE else View.GONE
+                Log.i(TAG, "$show")
             }
         })
     }
