@@ -63,6 +63,11 @@ class UserRepositoryImpl : UserRepository
         }
     }
 
+    override suspend fun checkUserLoggedIn(): FirebaseUser?
+    {
+        return firebaseAuth.currentUser
+    }
+
     override suspend fun createUserInFirestore(user: User): Result<Void?>
     {
         return try

@@ -105,6 +105,15 @@ class FirebaseViewModel(var userRepository: UserRepository): ViewModel()
 
 
 
+
+    fun checkUserLoggedIn(): FirebaseUser?
+    {
+        var _firebaseUser: FirebaseUser? = null
+        viewModelScope.launch {
+            _firebaseUser = userRepository.checkUserLoggedIn()
+        }
+        return _firebaseUser
+    }
     fun createUserObject(firebaseUser: FirebaseUser, name: String, profilePicture: String = ""): User
     {
         val currentUser = User(
