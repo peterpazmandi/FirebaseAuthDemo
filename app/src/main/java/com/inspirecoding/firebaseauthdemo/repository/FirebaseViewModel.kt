@@ -33,7 +33,7 @@ import java.util.*
 
 
 private val TAG = "FirebaseViewModel"
-class FirebaseViewModel(): ViewModel()
+class FirebaseViewModel(var userRepository: UserRepository): ViewModel()
 {
     private val _toast = MutableLiveData<String?>()
     val toast: LiveData<String?>
@@ -46,9 +46,6 @@ class FirebaseViewModel(): ViewModel()
     private val _currentUserMLD = MutableLiveData<User>(User())
     val currentUserLD: LiveData<User>
         get() = _currentUserMLD
-
-    val userRepository: UserRepository = UserRepositoryImpl()
-
 
     //Email
     fun registerUserFromAuthWithEmailAndPassword(name: String, email: String, password: String, activity: Activity)

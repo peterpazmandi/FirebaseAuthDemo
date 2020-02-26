@@ -7,18 +7,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.inspirecoding.firebaseauthdemo.R
 import com.inspirecoding.firebaseauthdemo.repository.FirebaseViewModel
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity()
 {
-    private lateinit var firebaseViewModel: FirebaseViewModel
+    private val firebaseViewModel: FirebaseViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        firebaseViewModel = ViewModelProvider(this)
-            .get(FirebaseViewModel::class.java)
 
         firebaseViewModel.toast.observe(this, Observer { message ->
             message?.let {

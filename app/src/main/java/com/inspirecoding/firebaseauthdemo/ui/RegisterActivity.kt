@@ -12,20 +12,18 @@ import com.inspirecoding.firebaseauthdemo.repository.FirebaseViewModel
 import com.inspirecoding.firebaseauthdemo.repository.UserRepository
 import com.inspirecoding.firebaseauthdemo.repository.implementation.UserRepositoryImpl
 import kotlinx.android.synthetic.main.activity_register.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private val TAG = "RegisterActivity"
 class RegisterActivity : AppCompatActivity()
 {
-    private lateinit var firebaseViewModel: FirebaseViewModel
+    private val firebaseViewModel: FirebaseViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-
-        firebaseViewModel = ViewModelProvider(this)
-            .get(FirebaseViewModel::class.java)
 
         btn_register_login.setOnClickListener {
             if(validateName() && validateEmail() && validatePassword())
