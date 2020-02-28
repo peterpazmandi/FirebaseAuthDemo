@@ -102,7 +102,46 @@ class FirebaseViewModel(var userRepository: UserRepository): ViewModel()
         }
     }
 
+    fun logInUserFromAuthWithEmailAndPassword(email: String, password: String, activity: Activity)
+    {
+        launchDataLoad {
+            viewModelScope.launch {
+                when (val result = userRepository.logInUserFromAuthWithEmailAndPassword(email, password))
+                {
+                    is Result.Success -> {
+                        Log.i(TAG, "SignIn - Result.Success - User: ${result.data}")
+                        result.data?.let { firebaseUser ->
+                            getUserFromFirestore(firebaseUser.uid, activity)
+                        }
+                    }
+                    is Result.Error -> {
+                        _toast.value = result.exception.message
+                    }
+                    is Result.Canceled -> {
+                        _toast.value = activity.getString(R.string.request_canceled)
+                    }
+                }
+            }
+        }
+    }
 
+    private suspend fun getUserFromFirestore(userId: String, activity: Activity)
+    {
+        when(val result = userRepository.getUserFromFirestore(userId))
+        {
+            is Result.Success -> {
+                val _user = result.data
+                _currentUserMLD.value = _user
+                startMainActivitiy(activity = activity)
+            }
+            is Result.Error -> {
+                _toast.value = result.exception.message
+            }
+            is Result.Canceled -> {
+                _toast.value = activity.getString(R.string.request_canceled)
+            }
+        }
+    }
 
 
 

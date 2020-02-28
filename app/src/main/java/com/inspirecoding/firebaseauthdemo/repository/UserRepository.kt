@@ -12,6 +12,13 @@ import kotlinx.coroutines.CoroutineScope
 
 interface UserRepository
 {
+    suspend fun logInUserFromAuthWithEmailAndPassword(
+        email: String,
+        password: String
+    ): Result<FirebaseUser?>
+
+    suspend fun getUserFromFirestore(userId: String): Result<User>?
+
     suspend fun registerUserFromAuthWithEmailAndPassword(email: String, password: String, context: Context): Result<FirebaseUser?>
     suspend fun createUserInFirestore(user: User): Result<Void?>
 
