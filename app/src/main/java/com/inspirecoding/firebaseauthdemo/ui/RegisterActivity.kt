@@ -1,5 +1,6 @@
 package com.inspirecoding.firebaseauthdemo.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -37,6 +38,10 @@ class RegisterActivity : AppCompatActivity()
             }
         }
 
+        tv_register_loginnow.setOnClickListener {
+            startLoginActivity()
+        }
+
         firebaseViewModel.toast.observe(this, Observer { message ->
             message?.let {
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -52,6 +57,11 @@ class RegisterActivity : AppCompatActivity()
         })
     }
 
+    private fun startLoginActivity()
+    {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+    }
 
     private fun validateName(): Boolean
     {

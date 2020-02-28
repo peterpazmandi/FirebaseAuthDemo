@@ -1,6 +1,8 @@
 package com.inspirecoding.firebaseauthdemo
 
 import android.app.Application
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.inspirecoding.firebaseauthdemo.module.firebaseViewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin

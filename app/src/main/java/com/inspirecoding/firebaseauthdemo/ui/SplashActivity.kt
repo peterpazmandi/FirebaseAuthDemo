@@ -38,7 +38,9 @@ class SplashActivity : AppCompatActivity()
             {
                 currentFirebaseUser?.let { firebaseUser ->
                     Log.i(TAG, firebaseUser.uid)
-
+                    firebaseViewModel.getUserFromFirestore(
+                            firebaseUser.uid,
+                    this@SplashActivity)
                     startActivity(MainActivity())
                 }
             }

@@ -111,6 +111,7 @@ class FirebaseViewModel(var userRepository: UserRepository): ViewModel()
                     is Result.Success -> {
                         Log.i(TAG, "SignIn - Result.Success - User: ${result.data}")
                         result.data?.let { firebaseUser ->
+                            _toast.value = activity.getString(R.string.login_successful)
                             getUserFromFirestore(firebaseUser.uid, activity)
                         }
                     }
@@ -125,12 +126,13 @@ class FirebaseViewModel(var userRepository: UserRepository): ViewModel()
         }
     }
 
-    private suspend fun getUserFromFirestore(userId: String, activity: Activity)
+    suspend fun getUserFromFirestore(userId: String, activity: Activity)
     {
         when(val result = userRepository.getUserFromFirestore(userId))
         {
             is Result.Success -> {
                 val _user = result.data
+                Log.d(TAG, "${result.data}")
                 _currentUserMLD.value = _user
                 startMainActivitiy(activity = activity)
             }
@@ -142,8 +144,6 @@ class FirebaseViewModel(var userRepository: UserRepository): ViewModel()
             }
         }
     }
-
-
 
     fun checkUserLoggedIn(): FirebaseUser?
     {

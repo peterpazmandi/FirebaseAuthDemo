@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.inspirecoding.firebaseauthdemo.R
 import com.inspirecoding.firebaseauthdemo.repository.FirebaseViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity()
@@ -23,6 +24,10 @@ class MainActivity : AppCompatActivity()
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                 firebaseViewModel.onToastShown()
             }
+        })
+
+        firebaseViewModel.currentUserLD.observe(this, Observer { currentUser ->
+            tv_main_loggedInUser.text = currentUser.name
         })
     }
 }
