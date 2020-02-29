@@ -95,6 +95,11 @@ class UserRepositoryImpl : UserRepository
         return firebaseAuth.currentUser
     }
 
+    override suspend fun logOutUser()
+    {
+        firebaseAuth.signOut()
+    }
+
     override suspend fun createUserInFirestore(user: User): Result<Void?>
     {
         return try

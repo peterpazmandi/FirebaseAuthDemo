@@ -153,6 +153,12 @@ class FirebaseViewModel(var userRepository: UserRepository): ViewModel()
         }
         return _firebaseUser
     }
+    fun logOutUser()
+    {
+        viewModelScope.launch {
+            userRepository.logOutUser()
+        }
+    }
     fun createUserObject(firebaseUser: FirebaseUser, name: String, profilePicture: String = ""): User
     {
         val currentUser = User(

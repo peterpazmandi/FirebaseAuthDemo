@@ -30,4 +30,5 @@
     <string name="already_have_an_account">Already have an account? <font color="#FFBD2A"><big><b>Login</b></big></font></string>
     <string name="login_successful">Login Successful!</string>
     <string name="request_canceled">Request canceled</string>
+    <string name="log_out">Log out</string>
 </resources>

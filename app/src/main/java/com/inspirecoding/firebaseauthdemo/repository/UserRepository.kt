@@ -23,4 +23,5 @@ interface UserRepository
     suspend fun createUserInFirestore(user: User): Result<Void?>
 
     suspend fun checkUserLoggedIn(): FirebaseUser?
+    suspend fun logOutUser()
 }
