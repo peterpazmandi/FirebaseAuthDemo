@@ -22,6 +22,10 @@ interface UserRepository
     suspend fun registerUserFromAuthWithEmailAndPassword(email: String, password: String, context: Context): Result<FirebaseUser?>
     suspend fun createUserInFirestore(user: User): Result<Void?>
 
+    suspend fun sendPasswordResetEmail(
+        email: String
+    ): Result<Void?>
+
     suspend fun checkUserLoggedIn(): FirebaseUser?
     suspend fun logOutUser()
 }

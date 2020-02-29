@@ -112,6 +112,18 @@ class UserRepositoryImpl : UserRepository
         }
     }
 
+    override suspend fun sendPasswordResetEmail(email: String): Result<Void?>
+    {
+        return try
+        {
+            firebaseAuth.sendPasswordResetEmail(email).await()
+        }
+        catch (exception: Exception)
+        {
+            Result.Error(exception)
+        }
+    }
+
     override suspend fun getUserFromFirestore(userId: String): Result<User>?
     {
         try

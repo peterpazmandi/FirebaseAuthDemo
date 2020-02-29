@@ -126,6 +126,24 @@ class FirebaseViewModel(var userRepository: UserRepository): ViewModel()
         }
     }
 
+    fun sendPasswordResetEmail(email: String, activity: Activity)
+    {
+        viewModelScope.launch {
+            when(val result = userRepository.sendPasswordResetEmail(email))
+            {
+                is Result.Success -> {
+                    _toast.value = "Check email to reset your password!"
+                }
+                is Result.Error -> {
+                    _toast.value = result.exception.message
+                }
+                is Result.Canceled -> {
+                    _toast.value = activity.getString(R.string.request_canceled)
+                }
+            }
+        }
+    }
+
     suspend fun getUserFromFirestore(userId: String, activity: Activity)
     {
         when(val result = userRepository.getUserFromFirestore(userId))

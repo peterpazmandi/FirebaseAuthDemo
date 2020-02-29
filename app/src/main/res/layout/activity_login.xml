@@ -119,6 +119,17 @@
             android:textSize="@dimen/textsize_large" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/tv_login_forgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/forgot_password"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/textsize_medium"
+        app:layout_constraintRight_toRightOf="@+id/til_login_password"
+        app:layout_constraintTop_toBottomOf="@+id/til_login_password" />
+
     <Button
         android:id="@+id/btn_login_login"
         android:layout_width="match_parent"
@@ -134,7 +145,7 @@
         android:textSize="@dimen/textsize_large"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_login_password" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_login_forgotPassword" />
 
     <!--tv_login_orloginwith-->
     <TextView
