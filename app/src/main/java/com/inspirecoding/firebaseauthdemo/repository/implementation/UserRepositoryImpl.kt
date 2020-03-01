@@ -8,8 +8,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.viewModelScope
 import com.facebook.*
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.inspirecoding.firebaseauthdemo.extension.await
 import com.inspirecoding.firebaseauthdemo.model.User
@@ -20,8 +18,7 @@ import com.facebook.FacebookSdk.getApplicationContext
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.*
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -142,5 +139,9 @@ class UserRepositoryImpl : UserRepository
         {
             return Result.Error(exception)
         }
+    }
+    override suspend fun signInWithCredential(authCredential: AuthCredential): Result<AuthResult?>
+    {
+        return firebaseAuth.signInWithCredential(authCredential).await()
     }
 }

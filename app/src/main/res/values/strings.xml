@@ -31,4 +31,8 @@
     <string name="login_successful">Login Successful!</string>
     <string name="request_canceled">Request canceled</string>
     <string name="log_out">Log out</string>
+
+    <string name="facebook_app_id">1056738864696228</string>
+    <string name="fb_login_protocol_scheme">fb1056738864696228</string>
+
 </resources>

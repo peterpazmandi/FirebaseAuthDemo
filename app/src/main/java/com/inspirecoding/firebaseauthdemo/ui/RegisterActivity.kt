@@ -1,8 +1,10 @@
 package com.inspirecoding.firebaseauthdemo.ui
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -15,6 +17,8 @@ import com.inspirecoding.firebaseauthdemo.repository.implementation.UserReposito
 import kotlinx.android.synthetic.main.activity_register.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 private val TAG = "RegisterActivity"
 class RegisterActivity : AppCompatActivity()
@@ -26,6 +30,8 @@ class RegisterActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        printKeyHash()
+
         btn_register_login.setOnClickListener {
             if(validateName() && validateEmail() && validatePassword())
             {
@@ -36,6 +42,14 @@ class RegisterActivity : AppCompatActivity()
                     this
                 )
             }
+        }
+
+        iv_register_facebook.setOnClickListener {
+            firebaseViewModel.signInWithFacebook(this)
+        }
+
+        iv_register_google.setOnClickListener {
+            firebaseViewModel.signInWithGoogle(this)
         }
 
         tv_register_loginnow.setOnClickListener {
@@ -55,6 +69,28 @@ class RegisterActivity : AppCompatActivity()
                 Log.i(TAG, "$show")
             }
         })
+    }
+
+    private fun printKeyHash()
+    {
+        try
+        {
+            val info = packageManager.getPackageInfo("com.pazpeti.runningapp", PackageManager.GET_SIGNATURES)
+            for(signature in info.signatures)
+            {
+                val messageDigest = MessageDigest.getInstance("SHA")
+                messageDigest.update(signature.toByteArray())
+                Log.i("printKeyHash_2", Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT))
+            }
+        }
+        catch (exception: PackageManager.NameNotFoundException)
+        {
+            Toast.makeText(this, exception.toString(), Toast.LENGTH_LONG).show()
+        }
+        catch (exception: NoSuchAlgorithmException)
+        {
+            Toast.makeText(this, exception.toString(), Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun startLoginActivity()
@@ -109,5 +145,12 @@ class RegisterActivity : AppCompatActivity()
         {
             true
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        firebaseViewModel.onActivityResult(requestCode, resultCode, data, this)
     }
 }

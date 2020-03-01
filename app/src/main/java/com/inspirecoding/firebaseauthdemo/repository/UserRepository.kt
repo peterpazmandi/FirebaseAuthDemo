@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.inspirecoding.firebaseauthdemo.model.User
@@ -28,4 +30,8 @@ interface UserRepository
 
     suspend fun checkUserLoggedIn(): FirebaseUser?
     suspend fun logOutUser()
+
+    suspend fun signInWithCredential(
+        authCredential: AuthCredential
+    ): Result<AuthResult?>
 }

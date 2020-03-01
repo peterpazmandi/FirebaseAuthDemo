@@ -39,6 +39,14 @@ class LoginActivity : AppCompatActivity()
             }
         }
 
+        iv_login_facebook.setOnClickListener {
+            firebaseViewModel.signInWithFacebook(this)
+        }
+
+        iv_login_google.setOnClickListener {
+            firebaseViewModel.signInWithGoogle(this)
+        }
+
         tv_login_regsiternow.setOnClickListener {
             startRegisterActivity()
         }
@@ -48,8 +56,10 @@ class LoginActivity : AppCompatActivity()
         }
 
         firebaseViewModel.toast.observe(this, Observer {message ->
-            Log.i(TAG, message)
-            Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+            message?.let {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                firebaseViewModel.onToastShown()
+            }
         })
     }
 
@@ -118,5 +128,12 @@ class LoginActivity : AppCompatActivity()
         {
             true
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        firebaseViewModel.onActivityResult(requestCode, resultCode, data, this)
     }
 }

@@ -35,6 +35,11 @@ import java.util.*
 private val TAG = "FirebaseViewModel"
 class FirebaseViewModel(var userRepository: UserRepository): ViewModel()
 {
+    private var callbackManager: CallbackManager? = null
+
+    private lateinit var googleSingInClient: GoogleSignInClient
+    private val RC_SIGN_IN = 1
+
     private val _toast = MutableLiveData<String?>()
     val toast: LiveData<String?>
         get() = _toast
@@ -144,6 +149,124 @@ class FirebaseViewModel(var userRepository: UserRepository): ViewModel()
         }
     }
 
+    //Facebook
+    fun signInWithFacebook(activity: Activity)
+    {
+        launchDataLoad {
+            callbackManager = CallbackManager.Factory.create()
+
+            LoginManager
+                .getInstance()
+                .logInWithReadPermissions(
+                    activity,
+                    Arrays.asList("email", "public_profile"))
+
+            LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult>
+            {
+                override fun onSuccess(result: LoginResult?)
+                {
+                    val credential = FacebookAuthProvider.getCredential(result?.accessToken?.token!!)
+                    viewModelScope.launch {
+                        when(val result = userRepository.signInWithCredential(credential))
+                        {
+                            is Result.Success -> {
+                                Log.d(TAG, "Result.Success - ${result.data?.user?.uid}")
+                                result.data?.user?.let { user ->
+                                    val _user = user.displayName?.let {
+                                        createUserObject(
+                                            user,
+                                            it
+                                        )
+                                    }
+                                    _user?.let {
+                                        createUserInFirestore(_user, activity)
+                                    }
+                                }
+                            }
+                            is Result.Error -> {
+                                Log.e(TAG, "Result.Error - ${result.exception.message}")
+                                _toast.value = result.exception.message
+                            }
+                            is Result.Canceled -> {
+                                Log.d(TAG, "Result.Canceled")
+                                _toast.value = activity.applicationContext.getString(R.string.request_canceled)
+                            }
+                        }
+                    }
+                }
+
+                override fun onError(error: FacebookException?)
+                {
+                    Log.e(TAG, "Result.Error - ${error?.message}")
+                    _toast.value = error?.message
+                }
+
+                override fun onCancel()
+                {
+                    Log.d(TAG, "Result.Canceled")
+                    _toast.value = activity.applicationContext.getString(R.string.request_canceled)
+                }
+            })
+        }
+    }
+
+    //Google
+    fun signInWithGoogle(activity: Activity)
+    {
+        launchDataLoad {
+            val googleSignInOptions: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(activity.getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+            googleSingInClient = GoogleSignIn.getClient(activity, googleSignInOptions)
+
+            val intent = googleSingInClient.signInIntent
+            activity.startActivityForResult(intent, RC_SIGN_IN)
+        }
+    }
+    private fun handleSignInResult (completedTask: Task<GoogleSignInAccount>, activity: Activity)
+    {
+        viewModelScope.launch {
+            try
+            {
+                val account: GoogleSignInAccount? = completedTask.getResult(ApiException::class.java)
+                account?.let {
+                    val credential: AuthCredential = GoogleAuthProvider.getCredential(account.idToken, null)
+                    when(val result = userRepository.signInWithCredential(credential))
+                    {
+                        is Result.Success -> {
+                            Log.d(TAG, "Result.Success - ${result.data?.user?.uid}")
+                            result.data?.user?.let {user ->
+                                val _user = user.displayName?.let {
+                                    createUserObject(
+                                        user,
+                                        it
+                                    )
+                                }
+                                _user?.let {
+                                    createUserInFirestore(_user, activity)
+                                }
+                            }
+                        }
+                        is Result.Error -> {
+                            Log.e(TAG, "Result.Error - ${result.exception.message}")
+                            _toast.value = result.exception.message
+                        }
+                        is Result.Canceled -> {
+                            Log.d(TAG, "Result.Canceled")
+                            _toast.value = activity.getString(R.string.request_canceled)
+                        }
+                    }
+                }
+            }
+            catch (exception: Exception)
+            {
+                Toast.makeText(activity.applicationContext, "Sign In Failed", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     suspend fun getUserFromFirestore(userId: String, activity: Activity)
     {
         when(val result = userRepository.getUserFromFirestore(userId))
@@ -213,5 +336,17 @@ class FirebaseViewModel(var userRepository: UserRepository): ViewModel()
     {
         val intent = Intent(activity, MainActivity::class.java)
         activity.startActivity(intent)
+    }
+
+
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, activity: Activity)
+    {
+        callbackManager?.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == RC_SIGN_IN)
+        {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task, activity)
+        }
     }
 }
